@@ -1,0 +1,51 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { StarIcon } from 'lucide-react';
+import timeFormat from '../lib/timeFormat';
+
+const MovieCard = ({ movie }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div
+      className="flex flex-col justify-between p-3 bg-gray-800 rounded-2xl hover:-translate-y-1 transition duration-300 w-[14rem] sm:w-[15rem] md:w-[16rem]"
+    >
+      <img
+        onClick={() => {
+          navigate(`/movies/${movie._id}`);
+          window.scrollTo(0, 0);
+        }}
+        src={movie.backdrop_path}
+        alt={movie.title}
+        className="rounded-lg h-40 sm:h-44 md:h-48 w-full object-cover object-center cursor-pointer"
+      />
+
+      <p className="font-semibold mt-2 truncate">{movie.title}</p>
+
+      <p className="text-sm text-gray-400 mt-2">
+        {new Date(movie.release_date).getFullYear()} •{' '}
+        {movie.genres.slice(0, 2).map((genre) => genre.name).join(' | ')} •{' '}
+        {timeFormat(movie.runtime)}
+      </p>
+
+      <div className="flex items-center justify-between mt-4 pb-3">
+        <button
+          onClick={() => {
+            navigate(`/movies/${movie._id}`);
+            window.scrollTo(0, 0);
+          }}
+          className="flex items-center justify-center px-3 py-1 bg-red-500 hover:bg-red-600 text-white font-medium rounded-full text-sm transition-all duration-300 cursor-pointer"
+        >
+          Buy Tickets
+        </button>
+
+        <p className="flex items-center gap-1 text-sm text-red-500 mt-1 pr-1">
+          <StarIcon className="w-4 h-4 text-red-500 fill-red-500" />
+          {movie.vote_average.toFixed(1)}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default MovieCard;
